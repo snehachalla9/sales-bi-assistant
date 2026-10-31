@@ -102,6 +102,19 @@ The Analytics Service executes SQL queries for:
 - Monthly revenue aggregation.
 - Highest-revenue region.
 - Month-to-month revenue comparison.
+## Sample Results
+
+| Metric | Result |
+|---|---:|
+| Total Revenue | 1,439,200 |
+| Completed Transactions | 48 |
+| Top Product | Monitor |
+| Top Product Revenue | 473,000 |
+| Top Region | South |
+| Top Region Revenue | 411,200 |
+| January 2026 Revenue | 210,250 |
+| February 2026 Revenue | 234,600 |
+| Revenue Growth | 11.58% |
 
 ## API Endpoints
 
@@ -138,8 +151,8 @@ Example response:
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
-cd sales_bi_assistant
+git clone https://github.com/snehachalla9/sales-bi-assistant.git
+cd sales-bi-assistant
 ```
 
 ### 2. Create a virtual environment
