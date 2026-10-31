@@ -1,13 +1,22 @@
 from unittest.mock import Mock
+
 import pytest
 
 from app.services.business_query_service import BusinessQueryService
 
 
 @pytest.fixture
-def service():
+def service(monkeypatch):
+    mock_interpreter = Mock()
+
+    monkeypatch.setattr(
+        "app.services.business_query_service.QuestionInterpreter",
+        lambda: mock_interpreter
+    )
+
     instance = BusinessQueryService()
-    instance.interpreter = Mock()
+    instance.interpreter = mock_interpreter
+
     return instance
 
 
@@ -34,9 +43,7 @@ def test_supported_questions(service, question, intent):
     assert result["question"] == question
 
 
-def test_empty_question():
-    service = BusinessQueryService()
-
+def test_empty_question(service):
     with pytest.raises(ValueError):
         service.answer_question("")
 

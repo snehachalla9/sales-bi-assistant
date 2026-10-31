@@ -256,3 +256,55 @@ Potential improvements include:
 The project demonstrates how AI-assisted natural-language interpretation can be combined with deterministic database analytics to build a simple Business Intelligence Assistant.
 
 The development process involved data processing, SQL analytics, LLM integration, REST API development, frontend visualization, automated testing, debugging, and technical documentation.
+## Groq API Dependency and Test Isolation
+
+### Runtime Dependency
+
+The application uses the Groq API through the QuestionInterpreter
+component to interpret natural-language business questions.
+
+The application requires:
+- A valid API key configured through the GROQ_API_KEY environment variable.
+- An accessible model configured through the LLM_MODEL environment variable.
+
+The API key is stored in the local .env file and must never be
+committed to Git.
+
+If the API key is missing or invalid, or the configured model is
+unavailable, live question interpretation may fail.
+
+The application currently depends on a working Groq configuration
+for natural-language question interpretation. No deterministic
+fallback is currently implemented.
+
+### Automated Test Isolation
+
+The business-query tests use Python's unittest.mock.Mock to replace
+QuestionInterpreter.
+
+The mock is installed before BusinessQueryService is instantiated.
+This prevents the service from initializing a real Groq client during
+these tests.
+
+The tests provide predefined interpreter responses for supported
+and unsupported questions.
+
+This allows the tests to verify business-query routing without
+making external API calls.
+
+Therefore:
+- A Groq API key is not required for these automated tests.
+- The tests do not consume Groq API credits.
+- The tests verify business-query routing and response handling.
+- Live Groq authentication and model availability must be tested
+  separately when running the application.
+
+### Testing Command
+
+Run the automated tests using:
+
+python -m pytest -v
+
+A successful test run confirms the tested application logic works
+with the mocked interpreter. It does not prove that the external
+Groq API is configured correctly.
